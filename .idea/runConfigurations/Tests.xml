@@ -1,0 +1,12 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Tests" type="Application" factoryName="Application">
+    <option name="MAIN_CLASS_NAME" value="com.company.Tests" />
+    <module name="CS3310_Project_1" />
+    <option name="VM_PARAMETERS" value="-ea" />
+    <RunnerSettings RunnerId="Run" />
+    <ConfigurationWrapper RunnerId="Run" />
+    <method v="2">
+      <option name="Make" enabled="true" />
+    </method>
+  </configuration>
+</component>
