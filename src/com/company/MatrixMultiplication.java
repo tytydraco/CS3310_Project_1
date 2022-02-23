@@ -50,13 +50,27 @@ public class MatrixMultiplication {
         return result;
     }
 
+    private int[][] _naive(int startRow, int endRow, int startCol, int endCol) {
+        int size = endRow - startRow;
+        int half = size / 2;
+
+        _naive(0, half, 0, half);                   // TOP LEFT
+        _naive(half + 1, size, 0, half);            // TOP RIGHT
+        _naive(0, half, half + 1, size);            // BOT LEFT
+        _naive(half + 1, size, half + 1, size);     // BOT RIGHT
+
+        // ???
+
+        return new int[][] {};
+    }
+
     /**
      * Multiply two matrices by divide-and-conquer
      *
      * O(n^3)
      */
     public int[][] naive() {
-        return new int[][] {};
+        return _naive(0, a.length, 0, a.length)
     }
 
     /**
