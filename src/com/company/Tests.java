@@ -60,8 +60,8 @@ public class Tests {
      * Run unit tests to verify that everything worked as intended
      */
     public static void main(String[] args) {
-        assertTraditional();
+        //assertTraditional();
         assertNaive();
-        assertStrassens();
+        //assertStrassens();
     }
 }

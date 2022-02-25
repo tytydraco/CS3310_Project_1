@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.Arrays;
+
 public class MatrixMultiplication {
     int[][] a;
     int[][] b;
@@ -54,14 +56,26 @@ public class MatrixMultiplication {
         int size = endRow - startRow;
         int half = size / 2;
 
-        _naive(0, half, 0, half);                   // TOP LEFT
-        _naive(half + 1, size, 0, half);            // TOP RIGHT
-        _naive(0, half, half + 1, size);            // BOT LEFT
-        _naive(half + 1, size, half + 1, size);     // BOT RIGHT
+        int[][] c = new int[size][size];
 
-        // ???
+        System.out.println(size);
+        if (size == 2) {
+            c[0][0] = a[startRow][startCol] * b[startRow][startCol] + a[startRow][endCol] * b[endRow][startCol];    // TOP LEFT
+            c[0][1] = a[startRow][startCol] * b[startRow][endCol] + a[startRow][endCol] * b[endRow][endCol];        // TOP RIGHT
+            c[1][0] = a[endRow][startCol] * b[startRow][startCol] + a[endRow][endCol] * b[endRow][startCol];        // BOT LEFT
+            c[1][1] = a[endRow][startCol] * b[startRow][endCol] + a[endRow][endCol] * b[endRow][endCol];            // BOT RIGHT
+        } else {
+            int[][] c11 = _naive(0, half, 0, half);                   // TOP LEFT
+            int[][] c12 = _naive(half + 1, size, 0, half);            // TOP RIGHT
+            int[][] c21 = _naive(0, half, half + 1, size);            // BOT LEFT
+            int[][] c22 = _naive(half + 1, size, half + 1, size);     // BOT RIGHT
 
-        return new int[][] {};
+            // TODO: combine into big boy
+            // TODO: fix looping forever
+            // TODO: ughhhhh
+        }
+
+        return c;
     }
 
     /**
@@ -70,7 +84,7 @@ public class MatrixMultiplication {
      * O(n^3)
      */
     public int[][] naive() {
-        return _naive(0, a.length, 0, a.length)
+        return _naive(0, a.length, 0, a.length);
     }
 
     /**
