@@ -34,7 +34,9 @@ public class MatrixMultiplication {
      *
      * O(n^3)
      */
-    public int[][] traditional() {
+    public int[][] traditional(int[][] a, int[][] b) {  
+        // I added the 2 parameters bc i thought i would use it for the naive... turns out i didnt need
+        //we can remove later if u want 
         /*
          * Typically, we multiply each ROW of `a` by each COLUMN of `b` (dot product)
          */
@@ -49,10 +51,18 @@ public class MatrixMultiplication {
             }
         }
 
+        for (int i = 0; i < result.length; i++) {
+            for (int j = 0; j < result.length; j++) {
+                System.out.print(result[i][j] + " ");
+            }
+            System.out.println();
+        }
+        System.out.println("\n");
+
         return result;
     }
 
-    private int[][] combineIntoBigBoy(int[][] c11, int[][] c12, int[][] c21, int[][] c22) {
+    /*private int[][] combineIntoBigBoy(int[][] c11, int[][] c12, int[][] c21, int[][] c22) {
         int size = c11.length * 2;
         int half = c11.length;
 
@@ -69,31 +79,45 @@ public class MatrixMultiplication {
         }
 
         return c;
-    }
+    }*/
 
-    private int[][] _naive(int rowA, int colA, int rowB, int colB) {
-        int size = colA - rowA;
-        int half = size / 2;
+    private int[][] _naive(int rowA, int colA, int rowB, int colB, int[][] c, int length) {
+        int size = rowA;
+        int half = rowA / 2;
 
-        int[][] c = new int[size][size];
+        //int[][] c = new int[size][size];
+        //System.out.println(size);
+        if (length == 2) {
+            //we subtract 1 bc index base 0, same logic w/ subtract 2
+            c[rowA-2][colA-2] = a[rowA-2][colA-2] * b[rowB-2][colB-2] + a[rowA-2][colA-1] * b[rowB-1][colB-2];
+            c[rowA-2][colA-1] = a[rowA-2][colA-2] * b[rowB-2][colB-1] + a[rowA-2][colA-1] * b[rowB-1][colB-1];
+            c[rowA-1][colA-2] = a[rowA-1][colA-2] * b[rowB-2][colB-2] + a[rowA-1][colA-1] * b[rowB-1][colB-2];
+            c[rowA-1][colA-1] = a[rowA-1][colA-2] * b[rowB-2][colB-1] + a[rowA-1][colA-1] * b[rowB-1][colB-1];
 
-        if (size == 1) {
-            c[0][0] = a[rowA][rowB] * b[rowB][colB];
+            for (int i = 0; i < c.length; i++) {
+                for (int j = 0; j < c.length; j++) {
+                    System.out.print(c[i][j] + " ");
+                }
+                System.out.println();
+            }
+            System.out.println("\n");
             return c;
+
         } else {
-            int[][] c11 = _naive(0, half, 0, half);                   // TOP LEFT
-            int[][] c12 = _naive(half + 1, size, 0, half);            // TOP RIGHT
-            int[][] c21 = _naive(0, half, half + 1, size);            // BOT LEFT
-            int[][] c22 = _naive(half + 1, size, half + 1, size);     // BOT RIGHT
+            int[][] c11 = _naive(half, half, half, half, c, length/2);                   // TOP LEFT
+            int[][] c12 = _naive(half, size, half, size, c, length/2);            // TOP RIGHT
+            int[][] c21 = _naive(size, half, size, half, c, length/2);            // BOT LEFT
+            int[][] c22 = _naive(size, size, size, size, c, length/2);     // BOT RIGHT
 
-            int[][] g = combineIntoBigBoy(c11, c12, c21, c22);
-            System.out.println(Arrays.deepToString(g));
+            for (int i = 0; i < c.length; i++) {
+                for (int j = 0; j < c.length; j++) {
+                    System.out.print(c[i][j] + " ");
+                }
+                System.out.println();
+            }
+            System.out.println("\n");
 
-            // TODO: combine into big boy
-            // TODO: fix looping forever
-            // TODO: ughhhhh
-
-            return g;
+            return c;
         }
     }
 
@@ -103,7 +127,8 @@ public class MatrixMultiplication {
      * O(n^3)
      */
     public int[][] naive() {
-        return _naive(0, a.length, 0, a.length);
+        int[][] result = new int[a.length][a.length];
+        return _naive(a.length, a.length, a.length, a.length, result, a.length);
     }
 
     /**

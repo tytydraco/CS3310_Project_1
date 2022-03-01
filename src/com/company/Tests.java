@@ -36,7 +36,7 @@ public class Tests {
     }
 
     private static void assertTraditional() {
-        int[][] result = TestData.sanityMM.traditional();
+        int[][] result = TestData.sanityMM.traditional(TestData.A, TestData.B);
         assert Arrays.deepEquals(result, TestData.RESULT) : "Traditional multiplication FAILED";
 
         System.out.println("Traditional multiplication verified");
@@ -60,8 +60,9 @@ public class Tests {
      * Run unit tests to verify that everything worked as intended
      */
     public static void main(String[] args) {
-        //assertTraditional();
+        assertTraditional();
         assertNaive();
         //assertStrassens();
     }
+
 }
