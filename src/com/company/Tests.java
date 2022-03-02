@@ -50,7 +50,7 @@ public class Tests {
     }
 
     private static void assertStrassens() {
-        int[][] result = TestData.sanityMM.strassens();
+        int[][] result = TestData.sanityMM.strassens(TestData.A, TestData.B);
         assert Arrays.deepEquals(result, TestData.RESULT) : "Strassens multiplication FAILED";
 
         System.out.println("Strassens multiplication verified");
@@ -60,9 +60,9 @@ public class Tests {
      * Run unit tests to verify that everything worked as intended
      */
     public static void main(String[] args) {
-        assertTraditional();
-        assertNaive();
-        //assertStrassens();
+        //assertTraditional();
+        //assertNaive();
+        assertStrassens();
     }
 
 }
