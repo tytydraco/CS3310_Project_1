@@ -1,8 +1,12 @@
 package com.company;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Random;
 
 public class Tests {
+    public static final int GENERATE_MATRIX_MAX = 50;
+
     /*
      * TODO: time methods
      * TODO: generate random matrices
@@ -40,6 +44,28 @@ public class Tests {
         public static MatrixMultiplication sanityMM = new MatrixMultiplication(A, B);
     }
 
+    private static int[][] generateRandomMatrix(int n) {
+        int[][] c = new int[n][n];
+
+        Random random = new Random();
+
+        for (int i = 0; i < c.length; i++) {
+            for (int j = 0; j < c[i].length; j++) {
+                int value = random.nextInt(GENERATE_MATRIX_MAX) * (random.nextBoolean() ? 1 : -1);
+                c[i][j] = value;
+            }
+        }
+
+        return c;
+    }
+
+    private static long timeRunnable(Runnable runnable) {
+        long start = System.currentTimeMillis();
+        runnable.run();
+        long end = System.currentTimeMillis();
+        return end - start;
+    }
+
     private static void assertTraditional() {
         int[][] result = TestData.sanityMM.traditional();
         assert Arrays.deepEquals(result, TestData.RESULT) : "Traditional multiplication FAILED";
@@ -61,13 +87,57 @@ public class Tests {
         System.out.println("Strassens multiplication verified");
     }
 
+    private static void runAllTests(int times, int maxSizePower) {
+        for (int power = 1; power < maxSizePower + 1; power++) {
+            long tradAvgTime = 0L;
+            long naiveAvgTime = 0L;
+            long strasAvgTime = 0L;
+
+            for (int count = 0; count < times; count++) {
+                int n = (int) Math.pow(2, power);
+                int[][] a = generateRandomMatrix(n);
+                int[][] b = generateRandomMatrix(n);
+
+                MatrixMultiplication mm = new MatrixMultiplication(a, b);
+
+                long tradTime = timeRunnable(mm::traditional);
+                tradAvgTime += tradTime;
+
+                long naiveTime = timeRunnable(mm::naive);
+                naiveAvgTime += naiveTime;
+
+                long strasTime = timeRunnable(mm::strassens);
+                strasAvgTime += strasTime;
+            }
+
+            tradAvgTime /= times;
+            naiveAvgTime /= times;
+            strasAvgTime /= times;
+
+            System.out.printf(
+                    """
+                            ---- 2 RAISED TO:   %32d
+                            AVG TRADITIONAL:    %32dms
+                            AVG NAIVE:          %32dms
+                            AVG STRASSENS:      %32dms
+                            
+                            """, power, tradAvgTime, naiveAvgTime, strasAvgTime);
+        }
+    }
+
     /**
      * Run unit tests to verify that everything worked as intended
      */
     public static void main(String[] args) {
+        System.out.println("RUNNING SANITY TESTS");
         assertTraditional();
         assertNaive();
         assertStrassens();
+        System.out.println("SANITY PASSED");
+        System.out.println();
+        System.out.println("RUNNING RANDOMIZED TRAILS");
+        runAllTests(32, 6);
+        System.out.println("RANDOMIZED TRAILS PASSED");
     }
 
 }
