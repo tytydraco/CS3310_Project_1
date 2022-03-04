@@ -3,6 +3,12 @@ package com.company;
 import java.util.Arrays;
 
 public class Tests {
+    /*
+     * TODO: time methods
+     * TODO: generate random matrices
+     * TODO: test multiple times
+     */
+
     /**
      * Test data to use
      */
