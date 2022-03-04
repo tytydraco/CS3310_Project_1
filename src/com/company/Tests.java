@@ -3,7 +3,6 @@ package com.company;
 import java.util.Arrays;
 
 public class Tests {
-
     /**
      * Test data to use
      */
@@ -36,7 +35,7 @@ public class Tests {
     }
 
     private static void assertTraditional() {
-        int[][] result = TestData.sanityMM.traditional(TestData.A, TestData.B);
+        int[][] result = TestData.sanityMM.traditional();
         assert Arrays.deepEquals(result, TestData.RESULT) : "Traditional multiplication FAILED";
 
         System.out.println("Traditional multiplication verified");
@@ -50,7 +49,7 @@ public class Tests {
     }
 
     private static void assertStrassens() {
-        int[][] result = TestData.sanityMM.strassens(TestData.A, TestData.B);
+        int[][] result = TestData.sanityMM.strassens();
         assert Arrays.deepEquals(result, TestData.RESULT) : "Strassens multiplication FAILED";
 
         System.out.println("Strassens multiplication verified");
@@ -60,8 +59,8 @@ public class Tests {
      * Run unit tests to verify that everything worked as intended
      */
     public static void main(String[] args) {
-        //assertTraditional();
-        //assertNaive();
+        assertTraditional();
+        assertNaive();
         assertStrassens();
     }
 
