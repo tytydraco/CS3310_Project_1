@@ -51,7 +51,7 @@ public class MatrixMultiplication {
             }
         }
 
-        System.out.println(Arrays.deepHashCode(result));
+        //System.out.println(Arrays.deepHashCode(result));
         return result;
     }
 
@@ -64,6 +64,7 @@ public class MatrixMultiplication {
             //boolean c12 = (maxRowA < size && maxColA < size && maxRowB < size && maxColB >= size) || (maxRowA < size && maxColA >= size && maxRowB >= size && maxColB >= size); //11 12 12 22
             //boolean c21 = (maxRowA < size && maxColA < size && maxRowB < size && maxColB < size) || (maxRowA < size && maxColA >= size && maxRowB >= size && maxColB < size);
             //System.out.println(maxColB);
+            //c[0][0] = a[0][0] * b[0][0]
             if (maxRowA < size && maxColA >= size && maxRowB >= size && maxColB < size) 
                 c[maxRowA][maxColB] = (a[maxRowA][maxColA] * b[maxRowB][maxColB]) + c[maxRowA][maxColB];
             else if (maxRowA < size && maxColA >= size && maxRowB >= size && maxColB >= size)
@@ -188,12 +189,153 @@ public class MatrixMultiplication {
      * O(n^2.8)
      */
     public int[][] strassens() {
-        int[][] c = _strassens(a, b);
-        System.out.println(Arrays.deepHashCode(c));
+        int[][] c = _strassens(a, b, a.length);
+        //System.out.println(Arrays.deepHashCode(c));
         return c;
     }
 
-    private int[][] _strassens(int[][] a, int[][] b) {
+    private int[][] strassensAdd(int[][] A, int[][] B,  int rc_A, int rc_B) {
+        int size = A.length/2;
+        //System.out.println("size: " + size);
+        int[][] c = new int[size][size];
+        //System.out.println("here");
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (rc_A == 11) {
+                    if (rc_B == 11) {
+                        c[i][j] = A[i][j] + B[i][j];
+                    }
+                    else if (rc_B == 12) {
+                        c[i][j] = A[i][j] + B[i][j+size];
+                    }
+                    else if (rc_B == 21) {
+                        c[i][j] = A[i][j] + B[i+size][j];
+                    }
+                    else if (rc_B == 22) {
+                        c[i][j] = A[i][j] + B[i+size][j+size];
+                    }
+                }
+                else if (rc_A == 12) {
+                    if (rc_B == 11) {
+                        c[i][j] = A[i][j+size] + B[i][j];
+                    }
+                    else if (rc_B == 12) {
+                        c[i][j] = A[i][j+size] + B[i][j+size];
+                    }
+                    else if (rc_B == 21) {
+                        c[i][j] = A[i][j+size] + B[i+size][j];
+                    }
+                    else if (rc_B == 22) {
+                        c[i][j] = A[i][j+size] + B[i+size][j+size];
+                    }
+                }
+                else if (rc_A == 21) {
+                    if (rc_B == 11) {
+                        c[i][j] = A[i+size][j] + B[i][j];
+                    }
+                    else if (rc_B == 12) {
+                        c[i][j] = A[i+size][j] + B[i][j+size];
+                    }
+                    else if (rc_B == 21) {
+                        c[i][j] = A[i+size][j] + B[i+size][j];
+                    }
+                    else if (rc_B == 22) {
+                        c[i][j] = A[i+size][j] + B[i+size][j+size];
+                    }
+                }
+                else if (rc_A == 22) {
+                    if (rc_B == 11) {
+                        c[i][j] = A[i+size][j+size] + B[i][j];
+                    }
+                    else if (rc_B == 12) {
+                        c[i][j] = A[i+size][j+size] + B[i][j+size];
+                    }
+                    else if (rc_B == 21) {
+                        c[i][j] = A[i+size][j+size] + B[i+size][j];
+                    }
+                    else if (rc_B == 22) {
+                        c[i][j] = A[i+size][j+size] + B[i+size][j+size];
+                    }
+                }
+            }
+        }
+        //System.out.println("out");
+        /*for (int i = 0; i < c.length; i++) {
+            for (int j = 0; j < c.length; j++) {
+                System.out.print(c[i][j] + " ");
+            }
+            System.out.println();
+        }*/
+        return c;
+    }
+
+    private int[][] strassensSub(int[][] A, int[][] B,  int rc_A, int rc_B) {
+        int size = A.length/2;
+        int[][] c = new int[size][size];
+        for (int i = 0; i < size; i++) {
+            for (int j = 0; j < size; j++) {
+                if (rc_A == 11) {
+                    if (rc_B == 11) {
+                        c[i][j] = A[i][j] - B[i][j];
+                    }
+                    else if (rc_B == 12) {
+                        c[i][j] = A[i][j] - B[i][j+size];
+                    }
+                    else if (rc_B == 21) {
+                        c[i][j] = A[i][j] - B[i+size][j];
+                    }
+                    else if (rc_B == 22) {
+                        c[i][j] = A[i][j] - B[i+size][j+size];
+                    }
+                }
+                else if (rc_A == 12) {
+                    if (rc_B == 11) {
+                        c[i][j] = A[i][j+size] - B[i][j];
+                    }
+                    else if (rc_B == 12) {
+                        c[i][j] = A[i][j+size] - B[i][j+size];
+                    }
+                    else if (rc_B == 21) {
+                        c[i][j] = A[i][j+size] - B[i+size][j];
+                    }
+                    else if (rc_B == 22) {
+                        c[i][j] = A[i][j+size] - B[i+size][j+size];
+                    }
+                }
+                else if (rc_A == 21) {
+                    if (rc_B == 11) {
+                        c[i][j] = A[i+size][j] - B[i][j];
+                    }
+                    else if (rc_B == 12) {
+                        c[i][j] = A[i+size][j] - B[i][j+size];
+                    }
+                    else if (rc_B == 21) {
+                        c[i][j] = A[i+size][j] - B[i+size][j];
+                    }
+                    else if (rc_B == 22) {
+                        c[i][j] = A[i+size][j] - B[i+size][j+size];
+                    }
+                }
+                else if (rc_A == 22) {
+                    if (rc_B == 11) {
+                        c[i][j] = A[i+size][j+size] - B[i][j];
+                    }
+                    else if (rc_B == 12) {
+                        c[i][j] = A[i+size][j+size] - B[i][j+size];
+                    }
+                    else if (rc_B == 21) {
+                        c[i][j] = A[i+size][j+size] - B[i+size][j];
+                    }
+                    else if (rc_B == 22) {
+                        c[i][j] = A[i+size][j+size] - B[i+size][j+size];
+                    }
+                }
+            }
+        }
+        return c;
+    }
+
+    private int[][] _strassens(int[][] a, int[][] b, int size) {
         int[][] c = new int[a.length][a.length];
     
         if (a.length == 1) {
@@ -201,31 +343,42 @@ public class MatrixMultiplication {
             return c;
         }
         else {
-            int[][] A11 = partitionMatrix(a, 1, 1);
-            int[][] A12 = partitionMatrix(a, 1, 2);
-            int[][] A21 = partitionMatrix(a, 2, 1);
-            int[][] A22 = partitionMatrix(a, 2, 2);
+            size = size/2;
+            //System.out.println("size: " + size);
+            //System.out.println("a: " + a.length);
+            //int[][] A11 = partitionMatrix(a, 1, 1);
+            //int[][] A12 = partitionMatrix(a, 1, 2);
+            //int[][] A21 = partitionMatrix(a, 2, 1);
+            //int[][] A22 = partitionMatrix(a, 2, 2);
 
-            int[][] B11 = partitionMatrix(b, 1, 1);
-            int[][] B12 = partitionMatrix(b, 1, 2);
-            int[][] B21 = partitionMatrix(b, 2, 1);
-            int[][] B22 = partitionMatrix(b, 2, 2);
+            //int[][] B11 = partitionMatrix(b, 1, 1);
+            //int[][] B12 = partitionMatrix(b, 1, 2);
+            //int[][] B21 = partitionMatrix(b, 2, 1);
+            //int[][] B22 = partitionMatrix(b, 2, 2);
 
-
-
-            int[][] P1 = _strassens(matrixAdd(A11, A22), matrixAdd(B11, B22));
-            int[][] P2 = _strassens(matrixAdd(A21, A22), B11);
-            int[][] P3 = _strassens(A11, matrixSub(B12, B22));
-            int[][] P4 = _strassens(A22, matrixSub(B21, B11));
-            int[][] P5 = _strassens(matrixAdd(A11, A12), B22);
-            int[][] P6 = _strassens(matrixSub(A21, A11), matrixAdd(B11, B12));
-            int[][] P7 = _strassens(matrixSub(A12, A22), matrixAdd(B21, B22));   //index calc here
+            int[][] P1 = _strassens(strassensAdd(a, a, 11, 22), strassensAdd(b, b, 11, 22), size);
+            int[][] P2 = _strassens(strassensAdd(a, a, 21, 22), partitionMatrix(b, 1, 1), size);
+            int[][] P3 = _strassens(partitionMatrix(a, 1, 1), strassensSub(b, b, 12, 22), size);
+            int[][] P4 = _strassens(partitionMatrix(a, 2, 2), strassensSub(b, b, 21, 11), size);
+            int[][] P5 = _strassens(strassensAdd(a, a, 11, 12), partitionMatrix(b, 2, 2), size);
+            int[][] P6 = _strassens(strassensSub(a, a, 21, 11), strassensAdd(b, b, 11, 12), size);
+            int[][] P7 = _strassens(strassensSub(a, a, 12, 22), strassensAdd(b, b, 21, 22), size);
+            //int[][] P1 = _strassens(matrixAdd(A11, A22), matrixAdd(B11, B22),size);
+            //int[][] P2 = _strassens(matrixAdd(A21, A22), B11, size);
+            //int[][] P3 = _strassens(A11, matrixSub(B12, B22) ,size);
+            //int[][] P4 = _strassens(A22, matrixSub(B21, B11),size);
+            //int[][] P5 = _strassens(matrixAdd(A11, A12), B22,size);
+            //int[][] P6 = _strassens(matrixSub(A21, A11), matrixAdd(B11, B12),size);
+            //int[][] P7 = _strassens(matrixSub(A12, A22), matrixAdd(B21, B22),size);   //index calc here
+            /*
             int[][] C11 = matrixAdd(matrixSub(matrixAdd(P1, P4), P5), P7);    //reg add and sub here bc no partition
             int[][] C12 = matrixAdd(P3, P5);
             int[][] C21 = matrixAdd(P2, P4);
             int[][] C22 = matrixAdd(matrixAdd(matrixSub(P1, P2), P3), P6);
 
-            return combinePartitions(C11, C12, C21, C22, c);
+            return combinePartitions(C11, C12, C21, C22, c); */
+
+            return combinePartitions(matrixAdd(matrixSub(matrixAdd(P1, P4), P5), P7), matrixAdd(P3, P5), matrixAdd(P2, P4), matrixAdd(matrixAdd(matrixSub(P1, P2), P3), P6), c);
         }
     }
 }

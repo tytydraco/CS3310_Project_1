@@ -112,8 +112,7 @@ public class Tests {
                             ---- 2 RAISED TO:   %32d
                             AVG TRADITIONAL:    %32dms
                             AVG NAIVE:          %32dms
-                            AVG STRASSEN:       %32dms
-                            
+                            AVG STRASSENS:      %32dms
                             
                             """, power, tradAvgTime, naiveAvgTime, strasAvgTime);
         }
@@ -130,7 +129,7 @@ public class Tests {
         System.out.println("SANITY PASSED");
         System.out.println();
         System.out.println("RUNNING RANDOMIZED TRAILS");
-        runAllTests(1, 15);
+        runAllTests(1, 10);
         System.out.println("RANDOMIZED TRAILS PASSED");
     }
 }
