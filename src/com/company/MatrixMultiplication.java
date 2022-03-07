@@ -1,5 +1,7 @@
 package com.company;
 
+import java.util.Arrays;
+
 public class MatrixMultiplication {
     int[][] a;
     int[][] b;
@@ -49,6 +51,7 @@ public class MatrixMultiplication {
             }
         }
 
+        System.out.println(Arrays.deepHashCode(result));
         return result;
     }
 
@@ -117,9 +120,10 @@ public class MatrixMultiplication {
     public int[][] naive() {
         int[][] c = new int[a.length][a.length];
         return _naive(a,b,c,a.length,0,a.length-1,0,a.length-1,0,b.length-1,0,b.length-1);
+        //System.out.println(Arrays.deepHashCode(c));
     }
 
-    private int[][] matrixAdd(int a[][], int b[][]) {
+    private int[][] matrixAdd(int[][] a, int[][] b) {
         int[][] c = new int[a.length][a.length];
 
         for (int i = 0; i < a.length; i++) {
@@ -184,7 +188,9 @@ public class MatrixMultiplication {
      * O(n^2.8)
      */
     public int[][] strassens() {
-        return _strassens(a, b);
+        int[][] c = _strassens(a, b);
+        System.out.println(Arrays.deepHashCode(c));
+        return c;
     }
 
     private int[][] _strassens(int[][] a, int[][] b) {
