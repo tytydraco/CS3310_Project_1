@@ -1,17 +1,10 @@
 package com.company;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Random;
 
 public class Tests {
     public static final int GENERATE_MATRIX_MAX = 50;
-
-    /*
-     * TODO: time methods
-     * TODO: generate random matrices
-     * TODO: test multiple times
-     */
 
     /**
      * Test data to use
@@ -93,8 +86,8 @@ public class Tests {
             long naiveAvgTime = 0L;
             long strasAvgTime = 0L;
 
+            int n = (int) Math.pow(2, power);
             for (int count = 0; count < times; count++) {
-                int n = (int) Math.pow(2, power);
                 int[][] a = generateRandomMatrix(n);
                 int[][] b = generateRandomMatrix(n);
 
@@ -139,5 +132,4 @@ public class Tests {
         runAllTests(32, 6);
         System.out.println("RANDOMIZED TRAILS PASSED");
     }
-
 }
