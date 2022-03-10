@@ -80,7 +80,7 @@ public class Tests {
         System.out.println("Strassens multiplication verified");
     }
 
-    private static void runAllTests(int times, int maxSizePower) {
+    private static void runAllTests_Power2(int times, int maxSizePower) {
         for (int power = 1; power < maxSizePower + 1; power++) {
             long tradAvgTime = 0L;
             long naiveAvgTime = 0L;
@@ -118,10 +118,56 @@ public class Tests {
         }
     }
 
+    private static void runAllTests_AnyNum(int times, int maxSize) {
+        for (int num = 1; num < maxSize + 1; num++) {
+            long tradAvgTime = 0L;
+            long naiveAvgTime = 0L;
+            long strasAvgTime = 0L;
+
+            for (int count = 0; count < times; count++) {
+                int[][] a = generateRandomMatrix(num);
+                int[][] b = generateRandomMatrix(num);
+
+                MatrixMultiplication mm = new MatrixMultiplication(a, b);
+
+                long tradTime = timeRunnable(mm::traditional);
+                tradAvgTime += tradTime;
+
+                long naiveTime = timeRunnable(mm::naive);
+                naiveAvgTime += naiveTime;
+
+                long strasTime = timeRunnable(mm::strassens);
+                strasAvgTime += strasTime;
+            }
+
+            tradAvgTime /= times;
+            naiveAvgTime /= times;
+            strasAvgTime /= times;
+
+            System.out.printf(
+                    """
+                            -Array Dimension:   %32d
+                            AVG TRADITIONAL:    %32dms
+                            AVG NAIVE:          %32dms
+                            AVG STRASSENS:      %32dms
+                            
+                            """, num, tradAvgTime, naiveAvgTime, strasAvgTime);
+        }
+    }
+
+
+
+
+
     /**
      * Run unit tests to verify that everything worked as intended
      */
     public static void main(String[] args) {
+
+        //int dim = (int) Math.ceil((Math.log(18) / Math.log(2)));
+        //System.out.println(dim);
+
+        
         System.out.println("RUNNING SANITY TESTS");
         assertTraditional();
         assertNaive();
@@ -129,7 +175,8 @@ public class Tests {
         System.out.println("SANITY PASSED");
         System.out.println();
         System.out.println("RUNNING RANDOMIZED TRAILS");
-        runAllTests(1, 10);
+        runAllTests_AnyNum(10, 1000);
         System.out.println("RANDOMIZED TRAILS PASSED");
+        
     }
 }

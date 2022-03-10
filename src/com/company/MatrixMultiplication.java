@@ -119,6 +119,11 @@ public class MatrixMultiplication {
      * O(n^3)
      */
     public int[][] naive() {
+        int power = (int) Math.ceil((Math.log(a.length) / Math.log(2)));
+        if ((int) Math.pow(2, power) != a.length) {
+            a = addExtraZeros(a);
+            b = addExtraZeros(b);
+        }
         int[][] c = new int[a.length][a.length];
         return _naive(a,b,c,a.length,0,a.length-1,0,a.length-1,0,b.length-1,0,b.length-1);
         //System.out.println(Arrays.deepHashCode(c));
@@ -189,6 +194,11 @@ public class MatrixMultiplication {
      * O(n^2.8)
      */
     public int[][] strassens() {
+        int power = (int) Math.ceil((Math.log(a.length) / Math.log(2)));
+        if ((int) Math.pow(2, power) != a.length) {
+            a = addExtraZeros(a);
+            b = addExtraZeros(b);
+        }
         int[][] c = _strassens(a, b, a.length);
         //System.out.println(Arrays.deepHashCode(c));
         return c;
@@ -381,4 +391,21 @@ public class MatrixMultiplication {
             return combinePartitions(matrixAdd(matrixSub(matrixAdd(P1, P4), P5), P7), matrixAdd(P3, P5), matrixAdd(P2, P4), matrixAdd(matrixAdd(matrixSub(P1, P2), P3), P6), c);
         }
     }
+
+    private int[][] addExtraZeros(int[][] A) {
+        int power = (int) Math.ceil((Math.log(A.length) / Math.log(2)));
+        int dim = (int) Math.pow(2, power);
+        int[][] C = new int[dim][dim];
+        for (int i = 0; i < dim; i++) {
+            for (int j = 0; j < dim; j++) {
+                if (A.length <= i || A.length <= j) 
+                    C[i][j] = 0;
+                else
+                    C[i][j] = A[i][j];
+            }
+        }
+
+        return C;
+    } 
+
 }
