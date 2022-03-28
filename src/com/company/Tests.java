@@ -162,12 +162,7 @@ public class Tests {
     /**
      * Run unit tests to verify that everything worked as intended
      */
-    public static void main(String[] args) {
-
-        //int dim = (int) Math.ceil((Math.log(18) / Math.log(2)));
-        //System.out.println(dim);
-
-        
+    public static void main(String[] args) {        
         System.out.println("RUNNING SANITY TESTS");
         assertTraditional();
         assertNaive();
@@ -175,7 +170,8 @@ public class Tests {
         System.out.println("SANITY PASSED");
         System.out.println();
         System.out.println("RUNNING RANDOMIZED TRAILS");
-        runAllTests_AnyNum(10, 1000);
+        runAllTests_AnyNum(30, 1000);
+        runAllTests_Power2(30, 12);
         System.out.println("RANDOMIZED TRAILS PASSED");
         
     }
